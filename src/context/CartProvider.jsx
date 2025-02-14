@@ -47,8 +47,8 @@ export function CartProvider({ children }) {
         setCart(response.data.cart);
        
       } catch (error) {
-        
-        toast.error("Failed to fetch cart.");
+        console.error("Failed to fetch cart:", error);
+        // toast.error("Failed to fetch cart.");
       }
     }
   
