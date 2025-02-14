@@ -19,7 +19,7 @@ export default function Home() {
             Shop the latest trends and find the perfect products for your style.
           </p>
           <Link
-            to="/shop"
+            to="/products"
             className="inline-block bg-white text-indigo-600 px-8 py-3 rounded-full font-semibold shadow-md hover:bg-gray-100 transition"
           >
             Shop Now
@@ -116,7 +116,7 @@ export default function Home() {
             Sign up today and get exclusive deals on your favorite products.
           </p>
           <Link
-            to="/signup"
+            to="/register"
             className="inline-block bg-white text-indigo-600 px-8 py-3 rounded-full font-semibold shadow-md hover:bg-gray-100 transition"
           >
             Get Started
