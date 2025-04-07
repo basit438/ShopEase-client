@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import instance from "../../axiosConfig";
@@ -37,44 +36,14 @@ export default function RegisterUser() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 relative overflow-hidden">
-      {/* Background decorative element */}
-      <div className="absolute inset-0 opacity-30">
-        <svg
-          className="w-full h-full"
-          viewBox="0 0 800 600"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="400"
-            cy="300"
-            r="300"
-            fill="url(#paint0_radial)"
-          />
-          <defs>
-            <radialGradient
-              id="paint0_radial"
-              cx="0"
-              cy="0"
-              r="1"
-              gradientUnits="userSpaceOnUse"
-              gradientTransform="translate(400 300) rotate(90) scale(300)"
-            >
-              <stop stopColor="#ffffff" stopOpacity="0.5" />
-              <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-        </svg>
-      </div>
-
+    <div className="min-h-screen flex items-center justify-center bg-white">
       <motion.div
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-10 w-full max-w-md"
+        className="relative bg-white rounded-3xl shadow-md p-10 w-full max-w-md border border-black"
       >
-        <h2 className="text-4xl font-bold text-center text-gray-800 mb-6">
+        <h2 className="text-4xl font-bold text-center text-black mb-6">
           Create Account
         </h2>
         {message && (
@@ -91,7 +60,7 @@ export default function RegisterUser() {
           <div>
             <label
               htmlFor="name"
-              className="block text-gray-700 mb-1 font-medium"
+              className="block text-black mb-1 font-medium"
             >
               Full Name
             </label>
@@ -102,14 +71,14 @@ export default function RegisterUser() {
               placeholder="Your full name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50"
+              className="w-full p-3 rounded-lg border border-black focus:outline-none focus:ring-2 focus:ring-black bg-white"
               required
             />
           </div>
           <div>
             <label
               htmlFor="email"
-              className="block text-gray-700 mb-1 font-medium"
+              className="block text-black mb-1 font-medium"
             >
               Email Address
             </label>
@@ -120,14 +89,14 @@ export default function RegisterUser() {
               placeholder="you@example.com"
               value={formData.email}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50"
+              className="w-full p-3 rounded-lg border border-black focus:outline-none focus:ring-2 focus:ring-black bg-white"
               required
             />
           </div>
           <div>
             <label
               htmlFor="password"
-              className="block text-gray-700 mb-1 font-medium"
+              className="block text-black mb-1 font-medium"
             >
               Password
             </label>
@@ -138,14 +107,14 @@ export default function RegisterUser() {
               placeholder="Enter a secure password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50"
+              className="w-full p-3 rounded-lg border border-black focus:outline-none focus:ring-2 focus:ring-black bg-white"
               required
             />
           </div>
           <div>
             <label
               htmlFor="phone"
-              className="block text-gray-700 mb-1 font-medium"
+              className="block text-black mb-1 font-medium"
             >
               Phone Number
             </label>
@@ -156,7 +125,7 @@ export default function RegisterUser() {
               placeholder="(123) 456-7890"
               value={formData.phone}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50"
+              className="w-full p-3 rounded-lg border border-black focus:outline-none focus:ring-2 focus:ring-black bg-white"
               required
             />
           </div>
@@ -164,28 +133,30 @@ export default function RegisterUser() {
             type="submit"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold shadow-md hover:bg-indigo-700 transition duration-300"
+            className="w-full bg-black hover:bg-gray-800 text-white py-3 rounded-lg font-semibold shadow-md transition duration-300"
             disabled={loading}
           >
             {loading ? "Registering..." : "Sign Up"}
           </motion.button>
         </form>
 
-        <p className="text-gray-600 text-center mt-6">
+        <p className="text-black text-center mt-6">
           Already have an account?{" "}
           <Link
             to="/login"
-            className="text-indigo-600 hover:text-indigo-800 transition duration-300"
+            className="underline transition duration-300 hover:text-gray-800"
           >
-            Login 
+            Login
           </Link>
-          <span className="text-gray-600 text-center mt-6 p-2">or Register as a{" "}</span>
-          <Link
-            to="/register-seller"
-            className="text-indigo-600 hover:text-indigo-800 transition duration-300"
-          >
-            Seller
-          </Link>
+          <span className="block mt-4">
+            Or register as a{" "}
+            <Link
+              to="/register-seller"
+              className="underline transition duration-300 hover:text-gray-800"
+            >
+              Seller
+            </Link>
+          </span>
         </p>
       </motion.div>
     </div>

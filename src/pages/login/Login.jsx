@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import axios from "axios";
-import { motion } from "framer-motion";
 import instance from "../../axiosConfig";
+import { motion } from "framer-motion";
 
 export default function LoginUser() {
   const [formData, setFormData] = useState({
@@ -41,50 +40,26 @@ export default function LoginUser() {
       // Clear the form
       setFormData({ email: "", password: "" });
       
-      // Redirect after a short dela
+      // Redirect after a short delay
       setTimeout(() => {
         navigate(refer, { replace: true });
       }, 1500);
     } catch (err) {
       setError(err.response?.data?.message || "Error logging in");
-    } finally {~
+    } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-30">
-        <svg
-          className="w-full h-full"
-          viewBox="0 0 800 600"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle cx="400" cy="300" r="300" fill="url(#paint0_radial)" />
-          <defs>
-            <radialGradient
-              id="paint0_radial"
-              cx="0"
-              cy="0"
-              r="1"
-              gradientUnits="userSpaceOnUse"
-              gradientTransform="translate(400 300) rotate(90) scale(300)"
-            >
-              <stop stopColor="#ffffff" stopOpacity="0.5" />
-              <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-        </svg>
-      </div>
-
+    <div className="min-h-screen flex items-center justify-center bg-white">
       <motion.div
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-10 w-full max-w-md"
+        className="relative bg-white rounded-3xl shadow-md p-10 w-full max-w-md border border-black"
       >
-        <h2 className="text-4xl font-bold text-center text-gray-800 mb-6">
+        <h2 className="text-4xl font-bold text-center text-black mb-6">
           Welcome Back
         </h2>
         {message && (
@@ -101,7 +76,7 @@ export default function LoginUser() {
           <div>
             <label
               htmlFor="email"
-              className="block text-gray-700 mb-1 font-medium"
+              className="block text-black mb-1 font-medium"
             >
               Email Address
             </label>
@@ -112,14 +87,14 @@ export default function LoginUser() {
               placeholder="you@example.com"
               value={formData.email}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50"
+              className="w-full p-3 rounded-lg border border-black focus:outline-none focus:ring-2 focus:ring-black"
               required
             />
           </div>
           <div>
             <label
               htmlFor="password"
-              className="block text-gray-700 mb-1 font-medium"
+              className="block text-black mb-1 font-medium"
             >
               Password
             </label>
@@ -130,7 +105,7 @@ export default function LoginUser() {
               placeholder="Enter your password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50"
+              className="w-full p-3 rounded-lg border border-black focus:outline-none focus:ring-2 focus:ring-black"
               required
             />
           </div>
@@ -138,7 +113,7 @@ export default function LoginUser() {
             type="submit"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold shadow-md hover:bg-indigo-700 transition duration-300"
+            className="w-full bg-black hover:bg-gray-800 text-white py-3 rounded-lg font-semibold shadow-md transition duration-300"
             disabled={loading}
           >
             {loading ? "Logging in..." : "Log In"}
@@ -146,11 +121,11 @@ export default function LoginUser() {
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-gray-600">
+          <p className="text-black">
             Don't have an account?{" "}
             <Link
               to="/register"
-              className="text-indigo-600 hover:underline transition duration-300"
+              className="text-black underline transition duration-300"
             >
               Sign Up
             </Link>
