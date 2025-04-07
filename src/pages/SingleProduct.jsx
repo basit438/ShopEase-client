@@ -5,7 +5,6 @@ import useCart from '../hooks/useCart';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 function SingleProduct() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);   // Holds product data
@@ -32,13 +31,14 @@ function SingleProduct() {
   const handleAddToCart = async () => {
     try {
       await addToCart(product._id);
+      toast.success("Product added to cart successfully.");
     } catch (err) {
       toast.error("Failed to add product to cart.");
     }
   };
 
   if (loading) {
-    return <div className="p-4 text-center">Loading...</div>;
+    return <div className="p-4 text-center text-black">Loading...</div>;
   }
 
   if (error) {
@@ -47,32 +47,32 @@ function SingleProduct() {
 
   return (
     <>
-      <div className="p-4 max-w-4xl mx-auto">
+      <div className="p-4 max-w-4xl mx-auto bg-white text-black">
         <div className="flex flex-col md:flex-row gap-6">
           {/* Image Section */}
           <div className="md:w-1/2 flex justify-center items-center">
             <img
               src={product.image}
               alt={product.name}
-              className="object-contain w-full max-h-96 rounded-lg"
+              className="object-contain w-full max-h-96 rounded-lg border border-black"
             />
           </div>
           {/* Product Details Section */}
           <div className="md:w-1/2 flex flex-col justify-between">
             <div>
               <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
-              <p className="text-gray-600 text-sm mb-2">Category: {product.category}</p>
-              <p className="text-gray-700 mb-4">{product.description}</p>
+              <p className="text-sm mb-2">Category: <span className="font-medium">{product.category}</span></p>
+              <p className="mb-4">{product.description}</p>
               <p className="text-xl font-semibold mb-2">${product.price}</p>
-              <p className="text-sm text-gray-600 mb-2">Brand: {product.brand}</p>
-              <p className="text-sm text-gray-600">
-                In Stock: {product.inStock ? 'Yes' : 'No'}
+              <p className="text-sm mb-2">Brand: <span className="font-medium">{product.brand}</span></p>
+              <p className="text-sm">
+                In Stock: <span className="font-medium">{product.inStock ? 'Yes' : 'No'}</span>
               </p>
             </div>
             <div className="mt-4">
               <button
                 onClick={handleAddToCart}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded w-full md:w-auto"
+                className="bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded w-full md:w-auto border border-black"
               >
                 Add to Cart
               </button>

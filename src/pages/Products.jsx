@@ -1,4 +1,3 @@
-// ProductList.js
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,7 +7,7 @@ import instance from "../axiosConfig";
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
-  const [wishlist, setWishlist] = useState([]); // holds product IDs from the user's wishlist
+  const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -84,21 +83,61 @@ export default function ProductList() {
     visible: { opacity: 1, y: 0 },
   };
 
+  // Function to render Featured Products for the home page
+  const renderFeaturedProducts = () => {
+    if (loading || error || products.length === 0) return null;
+    
+    // Select first 3 products for featured section
+    const featuredProducts = products.slice(0, 3);
+    
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {featuredProducts.map((product) => (
+          <div key={product._id} className="bg-white border border-gray-300">
+            <div className="aspect-square w-full bg-gray-100 flex items-center justify-center">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="max-h-full max-w-full object-contain p-4"
+              />
+            </div>
+            <div className="p-4">
+              <h3 className="text-base font-normal uppercase tracking-wider line-clamp-1">{product.name}</h3>
+              <p className="text-sm text-gray-700 mt-2 font-light">${product.price}</p>
+              <Link 
+                to={`/product/${product._id}`}
+                className="mt-4 inline-block w-full text-center border border-black text-black px-4 py-2 text-sm uppercase tracking-wider hover:bg-black hover:text-white transition-colors duration-300"
+              >
+                View Item
+              </Link>
+              {!product.inStock && (
+                <p className="mt-2 text-xs text-red-600 uppercase tracking-wider text-center">Out of stock</p>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">Our Products</h1>
+    <div className="min-h-screen bg-gray-50 py-12 font-mono">
+      <div className="max-w-6xl mx-auto px-6">
+        <h1 className="text-2xl font-normal text-black mb-12 text-center uppercase tracking-widest">
+          Collection
+        </h1>
+        
         {loading ? (
-          <div className="flex justify-center">
-            <p className="text-xl text-blue-500">Loading products...</p>
+          <div className="flex justify-center py-20">
+            <div className="w-16 h-16 border-t-2 border-black rounded-full animate-spin"></div>
           </div>
         ) : error ? (
-          <div className="flex justify-center">
-            <p className="text-xl text-red-500">{error}</p>
+          <div className="flex justify-center py-20">
+            <p className="text-base uppercase tracking-wider text-black">{error}</p>
           </div>
         ) : (
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -108,71 +147,127 @@ export default function ProductList() {
                 <motion.div
                   key={product._id}
                   variants={cardVariants}
-                  className="relative bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition duration-300 flex flex-col"
+                  className="bg-white border border-gray-300 flex flex-col"
                 >
                   <Link to={`/product/${product._id}`}>
-                    {/* Fixed container for image so it fits uniformly */}
-                    <div className="w-full h-48 flex items-center justify-center bg-gray-100">
+                    <div className="w-full aspect-square flex items-center justify-center bg-gray-100">
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="max-h-full max-w-full object-contain"
+                        className="max-h-full max-w-full object-contain p-4"
                       />
                     </div>
                   </Link>
-                  <div className="p-4 flex flex-col flex-grow">
+                  <div className="p-6 flex flex-col flex-grow">
                     <Link to={`/product/${product._id}`}>
-                      <h2 className="text-lg font-semibold text-gray-800 line-clamp-2">
+                      <h2 className="text-base font-normal uppercase tracking-wider line-clamp-2">
                         {product.name}
                       </h2>
                     </Link>
-                    <p className="mt-1 text-sm text-gray-500">{product.brand}</p>
-                    <div className="mt-3 flex items-center justify-between">
-                      <span className="text-xl font-bold text-gray-900">
+                    <p className="mt-2 text-sm text-gray-700 font-light">{product.brand}</p>
+                    <div className="mt-4 flex items-center justify-between">
+                      <span className="text-lg font-normal text-black">
                         ${product.price}
                       </span>
-                      <motion.button
+                      <button
                         onClick={() => handleWishlistClick(product._id)}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className={`px-3 py-1 text-sm rounded ${
+                        className={`px-3 py-1 border ${
                           isInWishlist(product._id)
-                            ? "bg-red-500 hover:bg-red-600 text-white"
-                            : "bg-blue-500 hover:bg-blue-600 text-white"
-                        }`}
+                            ? "bg-black text-white border-black"
+                            : "bg-white text-black border-black hover:bg-black hover:text-white"
+                        } text-xs uppercase tracking-wider transition-colors duration-300`}
                       >
-                        {isInWishlist(product._id) ? "Remove" : "Wishlist"}
-                      </motion.button>
+                        {isInWishlist(product._id) ? "Saved" : "Save"}
+                      </button>
                     </div>
-                    <div className="mt-4">
+                    <div className="mt-6">
                       <Link to={`/product/${product._id}`}>
-                        <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded">
+                        <button className="w-full bg-white border border-black text-black py-2 px-4 uppercase tracking-wider text-sm hover:bg-black hover:text-white transition-colors duration-300">
                           View Details
                         </button>
                       </Link>
+                      {!product.inStock && (
+                        <p className="mt-2 text-xs text-red-600 uppercase tracking-wider text-center">Out of stock</p>
+                      )}
                     </div>
                   </div>
-                  {/* Optional overlay for out-of-stock products */}
-                  {!product.inStock && (
-                    <div className="absolute inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-                      <span className="text-white text-lg font-semibold">Out of Stock</span>
-                    </div>
-                  )}
                 </motion.div>
               ))
             ) : (
-              <p className="col-span-full text-center text-gray-600 text-xl">
+              <p className="col-span-full text-center text-gray-700 uppercase tracking-wider py-20">
                 No products available.
               </p>
             )}
           </motion.div>
         )}
       </div>
+      
+      {/* Custom toast container styling */}
       <ToastContainer
-        position="top-right"
+        position="bottom-right"
         autoClose={3000}
-        hideProgressBar={false}
+        hideProgressBar={true}
+        closeButton={false}
+        toastClassName="bg-black text-white font-mono text-sm uppercase tracking-wider"
       />
     </div>
   );
 }
+
+// Export the featured products function for use in the Home component
+export const FeaturedProducts = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await instance.get("product/get");
+        // Get first 3 products for featured section
+        setProducts(response.data.products.slice(0, 3));
+      } catch (err) {
+        console.error("Failed to fetch featured products");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-12">
+        <div className="w-12 h-12 border-t-2 border-black rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {products.map((product) => (
+        <div key={product._id} className="bg-white border border-gray-300">
+          <div className="aspect-square w-full bg-gray-100 flex items-center justify-center">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="max-h-full max-w-full object-contain p-4"
+            />
+          </div>
+          <div className="p-4">
+            <h3 className="text-base font-normal uppercase tracking-wider line-clamp-1">{product.name}</h3>
+            <p className="text-sm text-gray-700 mt-2 font-light">${product.price}</p>
+            <Link 
+              to={`/product/${product._id}`}
+              className="mt-4 inline-block w-full text-center border border-black text-black px-4 py-2 text-sm uppercase tracking-wider hover:bg-black hover:text-white transition-colors duration-300"
+            >
+              View Item
+            </Link>
+            {!product.inStock && (
+              <p className="mt-2 text-xs text-red-600 uppercase tracking-wider text-center">Out of stock</p>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};

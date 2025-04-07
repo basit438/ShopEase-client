@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
-import useCart  from "../../hooks/useCart"; // Ensure your hook returns { cart, ... }
+import useCart from "../../hooks/useCart";
 import instance from "../../axiosConfig";
 
 export default function Header() {
@@ -10,8 +9,9 @@ export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { cart , fetchCart } = useCart(); // Assuming cart is an object like { items: [] }
+  const { cart, fetchCart } = useCart();
 
+  // Check login status on location change.
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
@@ -24,15 +24,16 @@ export default function Header() {
       }
     };
     checkLoginStatus();
-  }, [location, isLoggedIn, cart]); // re-run whenever the location changes
-useEffect(() => {
-  fetchCart();
-},[])   
+  }, [location]);
+
+  // Fetch cart data when the component mounts.
+  useEffect(() => {
+    fetchCart();
+  }, [fetchCart]);
+
   const handleLogout = async () => {
     try {
-      await instance.post("user/logout", {}, {
-        withCredentials: true,
-      });
+      await instance.post("user/logout", {}, { withCredentials: true });
       setIsLoggedIn(false);
       navigate("/login");
     } catch (err) {
@@ -40,37 +41,39 @@ useEffect(() => {
     }
   };
 
-  // Build the navigation links.
-  const navLinks = [
-    { name: "Home", to: "/" },
-    { name: "About", to: "/about" },
-    { name: "Products", to: "/products" },
-    ...(isLoggedIn ? [{ name: "My Profile", to: "/profile" }] : []),
-    ...(!isLoggedIn ? [
-      { name: "Login", to: "/login" },
-      { name: "Register", to: "/register" }
-    ] : []),
-  ];
-
-  // Add the Cart link (with badge) if the user is logged in.
-  if (isLoggedIn) {
-    navLinks.push({
-      name: (
-        <div className="relative inline-block">
-          <span>Cart</span>
-          {cart?.items?.length > 0 && (
-            <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-              {cart.items.length}
-            </span>
-          )}
-        </div>
-      ),
-      to: "/cart",
-    });
-  }
+  // Build navigation links using useMemo for optimization.
+  const navLinks = useMemo(() => {
+    const links = [
+      { name: "Home", to: "/" },
+      { name: "About", to: "/about" },
+      { name: "Products", to: "/products" },
+    ];
+    if (isLoggedIn) {
+      links.push({ name: "My Profile", to: "/profile" });
+    } else {
+      links.push({ name: "Login", to: "/login" });
+      links.push({ name: "Register", to: "/register" });
+    }
+    if (isLoggedIn) {
+      links.push({
+        name: (
+          <div className="relative inline-block">
+            <span>Cart</span>
+            {cart?.items?.length > 0 && (
+              <span className="absolute -top-2 -right-3 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {cart.items.length}
+              </span>
+            )}
+          </div>
+        ),
+        to: "/cart",
+      });
+    }
+    return links;
+  }, [isLoggedIn, cart]);
 
   return (
-    <header className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-lg">
+    <header className="sticky top-0 z-50 bg-white text-black shadow-md border-b border-black">
       <div className="container mx-auto flex justify-between items-center px-4 py-4 md:py-6">
         {/* Logo */}
         <motion.h1
@@ -86,11 +89,11 @@ useEffect(() => {
             <motion.div
               key={index}
               whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              whileTap={{ scale: 0.95 }}
             >
               <Link
                 to={link.to}
-                className="text-lg font-medium hover:text-gray-200 transition-colors duration-200"
+                className="text-lg font-medium hover:text-gray-600 transition-colors duration-200"
               >
                 {link.name}
               </Link>
@@ -98,8 +101,8 @@ useEffect(() => {
           ))}
           {isLoggedIn && (
             <button
-              className="text-lg font-medium hover:text-gray-200 transition-colors duration-200"
               onClick={handleLogout}
+              className="text-lg font-medium hover:text-gray-600 transition-colors duration-200"
             >
               Logout
             </button>
@@ -121,7 +124,12 @@ useEffect(() => {
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             ) : (
               <svg
@@ -131,7 +139,12 @@ useEffect(() => {
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 8h16M4 16h16"
+                />
               </svg>
             )}
           </button>
@@ -140,7 +153,7 @@ useEffect(() => {
 
       {/* Mobile Navigation Menu */}
       {mobileMenuOpen && (
-        <nav className="md:hidden bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+        <nav className="md:hidden bg-white border-t border-black">
           <ul className="flex flex-col items-center space-y-4 py-4">
             {navLinks.map((link, index) => (
               <motion.li
@@ -152,7 +165,7 @@ useEffect(() => {
                 <Link
                   onClick={() => setMobileMenuOpen(false)}
                   to={link.to}
-                  className="block text-lg font-medium hover:text-gray-200 transition-colors duration-200 px-4 py-2"
+                  className="block text-lg font-medium hover:text-gray-600 transition-colors duration-200 px-4 py-2"
                 >
                   {link.name}
                 </Link>
@@ -165,7 +178,7 @@ useEffect(() => {
                     handleLogout();
                     setMobileMenuOpen(false);
                   }}
-                  className="text-lg font-medium hover:text-gray-200 transition-colors duration-200 px-4 py-2"
+                  className="text-lg font-medium hover:text-gray-600 transition-colors duration-200 px-4 py-2"
                 >
                   Logout
                 </button>

@@ -1,131 +1,123 @@
 // Home.jsx
 import React from "react";
 import { Link } from "react-router-dom";
-import Products from "../pages/Products.jsx"
 import Footer from "../components/Footer/Footer";
+import { FeaturedProducts } from "./Products"; // Import the FeaturedProducts component
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
-   
-
+    <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 font-mono">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-20 px-4 text-center">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4">
-            Discover Amazing Products
+      <section className="bg-black text-white py-24 px-6 text-center border-b-4 border-black">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-normal mb-6 tracking-tight uppercase">
+            Timeless Essentials
           </h1>
-          <p className="text-xl md:text-2xl mb-8">
-            Shop the latest trends and find the perfect products for your style.
+          <p className="text-lg md:text-xl mb-10 font-light tracking-wider">
+            Curated goods for the discerning individual.
           </p>
           <Link
             to="/products"
-            className="inline-block bg-white text-indigo-600 px-8 py-3 rounded-full font-semibold shadow-md hover:bg-gray-100 transition"
+            className="inline-block bg-white text-black px-10 py-3 font-normal tracking-widest uppercase text-sm hover:bg-gray-200 transition border border-black"
           >
-            Shop Now
+            Browse Collection
           </Link>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-16 px-4 bg-gray-100">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-800 mb-8">
-            Why Shop With Us?
+      <section className="py-20 px-6 bg-white">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl font-normal text-black mb-16 text-center uppercase tracking-widest">
+            Our Philosophy
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-6 bg-white rounded-lg shadow">
-              <div className="mb-4">
-                <svg
-                  className="w-12 h-12 mx-auto text-indigo-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 3h18v18H3V3z"
-                  />
-                </svg>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="p-8 bg-white border border-gray-300">
+              <div className="mb-6">
+                <div className="w-12 h-12 mx-auto border-2 border-black"></div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                Quality Products
+              <h3 className="text-lg font-normal text-black mb-4 uppercase tracking-wider text-center">
+                Enduring Quality
               </h3>
-              <p className="text-gray-600">
-                We offer only the best quality items that are built to last.
+              <p className="text-gray-700 text-center font-light">
+                Meticulously crafted goods designed to accompany you through the decades.
               </p>
             </div>
-            <div className="p-6 bg-white rounded-lg shadow">
-              <div className="mb-4">
-                <svg
-                  className="w-12 h-12 mx-auto text-indigo-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
+            <div className="p-8 bg-white border border-gray-300">
+              <div className="mb-6">
+                <div className="w-12 h-12 mx-auto border-2 border-black flex items-center justify-center">
+                  <div className="w-8 h-1 bg-black"></div>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                Trusted Service
+              <h3 className="text-lg font-normal text-black mb-4 uppercase tracking-wider text-center">
+                Personal Service
               </h3>
-              <p className="text-gray-600">
-                Our customer support is always here to help you with any questions.
+              <p className="text-gray-700 text-center font-light">
+                Assistance provided with the courtesy and attention of a bygone era.
               </p>
             </div>
-            <div className="p-6 bg-white rounded-lg shadow">
-              <div className="mb-4">
-                <svg
-                  className="w-12 h-12 mx-auto text-indigo-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15 10l4.553-2.276A2 2 0 0122 9.618v4.764a2 2 0 01-2.447 1.894L15 14M4 6v12"
-                  />
-                </svg>
+            <div className="p-8 bg-white border border-gray-300">
+              <div className="mb-6">
+                <div className="w-12 h-12 mx-auto border-2 border-black flex items-center justify-center">
+                  <div className="w-1 h-8 bg-black"></div>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                Fast Shipping
+              <h3 className="text-lg font-normal text-black mb-4 uppercase tracking-wider text-center">
+                Reliable Delivery
               </h3>
-              <p className="text-gray-600">
-                Enjoy fast and reliable shipping on all orders, every time.
+              <p className="text-gray-700 text-center font-light">
+                Prompt dispatch and careful packaging for every order without exception.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-     
+      {/* Featured Products Section - Now using actual products */}
+      <section className="py-20 px-6 bg-gray-100 border-t border-b border-gray-300">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl font-normal text-black mb-10 text-center uppercase tracking-widest">
+            Featured Collection
+          </h2>
+          <FeaturedProducts />
+          <div className="text-center mt-12">
+            <Link 
+              to="/products"
+              className="inline-block border border-black text-black px-8 py-3 text-sm uppercase tracking-wider hover:bg-black hover:text-white transition-colors duration-300"
+            >
+              View All Products
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Call to Action Section */}
-      <section className="bg-indigo-600 text-white py-20 px-4 text-center">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold mb-4">Ready to Shop?</h2>
-          <p className="text-xl mb-8">
-            Sign up today and get exclusive deals on your favorite products.
+      <section className="bg-black text-white py-20 px-6 text-center">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl font-normal mb-6 uppercase tracking-wider">Join Us</h2>
+          <p className="text-lg mb-10 font-light tracking-wide">
+            Subscribe for early access to our latest collections.
           </p>
           <Link
             to="/register"
-            className="inline-block bg-white text-indigo-600 px-8 py-3 rounded-full font-semibold shadow-md hover:bg-gray-100 transition"
+            className="inline-block bg-white text-black px-10 py-3 font-normal tracking-widest uppercase text-sm hover:bg-gray-200 transition border border-white"
           >
-            Get Started
+            Subscribe
           </Link>
         </div>
       </section>
 
-     
-    {/* <Footer/> */}
+      {/* Quote Section */}
+      <section className="py-20 px-6 bg-white border-t border-gray-300">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-xl md:text-2xl font-light italic mb-6">
+            "Simplicity is the ultimate sophistication."
+          </p>
+          <p className="text-sm uppercase tracking-widest">— Leonardo da Vinci</p>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 }
